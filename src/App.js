@@ -1,5 +1,7 @@
 import "./App.css";
 import { Component } from "react";
+import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 
 class App extends Component {
   constructor() {
@@ -10,10 +12,8 @@ class App extends Component {
       monsters: [],
       searchField: "",
     };
-    //console.log("constructor");
   }
   componentDidMount() {
-    //console.log("Mount");
     //make API requests here
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
@@ -23,7 +23,7 @@ class App extends Component {
             return { monsters: users };
           },
           () => {
-            console.log(this.state);
+            //console.log(this.state);
           }
         )
       );
@@ -44,16 +44,12 @@ class App extends Component {
     });
     return (
       <div className="App">
-        <input
-          className="search-box"
-          type="search"
+        <SearchBox
+          onChangeHandler={onSearchChange}
           placeholder="search monsters"
-          onChange={onSearchChange}
+          className='search-box'
         />
-        {filteredMonsters.map((monster) => {
-          return <h1 key={monster.id}>{monster.name}</h1>;
-        })}
-        {/* <h1 v-for="monster in monsters">{{monster.name}}</h1> */}
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
